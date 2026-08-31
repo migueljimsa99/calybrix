@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calybrix — Total coverage. Near-zero cost.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --c:#0FB5A0;--c2:#2DE0C4;--c3:#0A8778;--c4:#064F46;
+      --cm:rgba(15,181,160,0.12);
+      --dark:#000000;--mid:#050707;--card:#0C1111;
+      --text:#F0F2F2;--muted:#7E8A88;--border:rgba(15,181,160,0.22);
+      --danger:#E5484D;
+      --fh:'Manrope',sans-serif;--fb:'Manrope',sans-serif;
+      --pad-x:clamp(24px,5vw,72px);
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--dark);color:var(--text);font-family:var(--fb);font-size:16px;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    img{max-width:100%}
+    ::selection{background:var(--c);color:#000}
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal{opacity:0;transform:translateY(32px);filter:blur(6px);transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform .9s cubic-bezier(.22,.61,.36,1),filter .9s ease}
+    .reveal.visible{opacity:1;transform:none;filter:none}
+    [data-stagger]>*{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1)}
+    [data-stagger].visible>*{opacity:1;transform:none}
+    .reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}.reveal-delay-3{transition-delay:.3s}.reveal-delay-4{transition-delay:.4s}
+
+    /* ── TYPEWRITER ── */
+    .type .ch{opacity:0}.type.typed .ch{opacity:1;transition:opacity 0s}
+    .type .caret{display:inline-block;width:.5ch;margin-left:2px;background:var(--c2);height:.85em;vertical-align:-.06em;opacity:0;border-radius:1px}
+    .type.typing .caret{opacity:1;animation:blink .7s steps(1) infinite}
+    @keyframes blink{50%{opacity:0}}
+
+    /* ── SPINE ── */
+    .spine{position:fixed;left:24px;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.06);z-index:50;pointer-events:none}
+    .spine .fill{position:absolute;top:0;left:0;width:100%;height:0%;background:linear-gradient(to bottom,var(--c2),rgba(45,224,196,0.2));transition:height .1s linear}
+    @media(max-width:900px){.spine{display:none}}
+
+    /* ── MARQUEE ── */
+    .marquee{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;white-space:nowrap;padding:16px 0;background:rgba(15,181,160,0.03)}
+    .marquee-track{display:inline-block;animation:mscroll 40s linear infinite}
+    .marquee span{font-weight:600;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin:0 30px}
+    .marquee span i{font-style:normal;color:var(--c2);margin-left:30px}
+    @keyframes mscroll{to{transform:translateX(-50%)}}
+    @media(prefers-reduced-motion:reduce){.reveal,[data-stagger]>*{opacity:1;transform:none;filter:none;transition:none}.type .ch{opacity:1}.type .caret{display:none}.marquee-track{animation:none}html{scroll-behavior:auto}}
+
+    /* ── NAV ── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem var(--pad-x);background:transparent;border-bottom:1px solid transparent;transition:background .4s ease,border-color .4s ease,backdrop-filter .4s ease}
+    nav.scrolled{background:rgba(0,0,0,0.82);backdrop-filter:blur(16px);border-bottom-color:var(--border)}
+    .logo-text{font-family:var(--fh);font-size:1.25rem;font-weight:800;letter-spacing:-0.02em;color:var(--text)}
+    .logo-text span{color:var(--c2)}
+    .nav-links{display:flex;gap:1.7rem;list-style:none}
+    .nav-links a{font-size:0.78rem;font-weight:600;color:var(--muted);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s;position:relative;padding:4px 0}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--c2);transition:width .3s ease}
+    .nav-links a:hover{color:var(--text)}.nav-links a:hover::after{width:100%}
+    .nav-cta{font-size:0.78rem;font-weight:600;padding:0.5rem 1.3rem;border:1px solid var(--c);border-radius:100px;color:var(--c2);background:transparent;cursor:pointer;transition:all 0.2s;text-decoration:none}
+    .nav-cta:hover{background:var(--c);color:#000}
+    @media(max-width:1000px){.nav-links{display:none}}
+
+    /* ── SECTIONS ── */
+    section,.sec{position:relative;padding:150px var(--pad-x);max-width:1240px;margin:0 auto;z-index:1}
+    .sec-full{position:relative;padding:150px var(--pad-x);background:var(--mid);z-index:1}
+    .sec-full .sec-inner{max-width:1240px;margin:0 auto}
+    @media(max-width:768px){section,.sec,.sec-full{padding:96px var(--pad-x)}}
+    .sec-label{font-weight:700;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--c2);display:flex;align-items:center;gap:14px;margin-bottom:24px}
+    .sec-label::before{content:attr(data-n);font-family:var(--fh);font-weight:800;color:rgba(45,224,196,0.4)}
+    .sec-label::after{content:"";height:1px;width:54px;background:var(--border)}
+    h1,h2{font-weight:800;letter-spacing:-0.03em;color:var(--text)}
+    h1{font-size:clamp(2.6rem,6vw,5rem);line-height:1.03}
+    h2{font-size:clamp(1.9rem,3.6vw,3rem);line-height:1.12;margin-bottom:1.3rem;max-width:32ch}
+    h1 em,h2 em{font-style:normal;color:var(--c2)}
+    .lede{font-size:clamp(1.02rem,1.5vw,1.25rem);color:var(--muted);max-width:60ch;font-weight:400}
+    .muted{color:var(--muted)}
+    .hl{color:var(--c2);font-weight:600}
+
+    /* ── HERO ── */
+    #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem var(--pad-x) 4rem;position:relative;overflow:hidden}
+    #swarm{position:absolute;inset:0;z-index:0;opacity:0.5}
+    .hero-inner{position:relative;z-index:2;max-width:1240px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;align-items:center}
+    @media(max-width:1000px){.hero-inner{grid-template-columns:1fr}}
+    .hero-eyebrow{font-weight:700;font-size:12px;letter-spacing:0.22em;text-transform:uppercase;color:var(--c2);margin-bottom:1.5rem}
+    .hero-quote{border-left:2px solid var(--c);padding-left:1.3rem;margin:1.8rem 0 2rem;font-style:italic;font-size:clamp(1rem,1.6vw,1.2rem);color:var(--muted);max-width:52ch}
+    .hero-sub{font-size:clamp(1rem,1.4vw,1.15rem);color:var(--muted);max-width:56ch;margin-bottom:2.4rem}
+    .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+    .hero-logo{display:flex;align-items:center;justify-content:center}
+    .hero-logo img{width:100%;max-width:420px;display:block;filter:drop-shadow(0 0 40px rgba(15,181,160,0.25))}
+    .hero-logo .ph{aspect-ratio:1;width:100%;max-width:360px;border:1px dashed var(--border);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-align:center;line-height:2}
+    @media(max-width:1000px){.hero-logo{display:none}}
+
+    /* ── KPI STRIP ── */
+    .kpi-strip{max-width:1240px;margin:4rem auto 0;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:2}
+    .kpi-strip .k{padding:1.8rem 1.4rem;border-right:1px solid var(--border)}
+    .kpi-strip .k:last-child{border-right:none}
+    .kpi-strip .kv{font-family:var(--fh);font-size:clamp(1.5rem,2.6vw,2.2rem);font-weight:800;letter-spacing:-0.02em;color:var(--c2)}
+    .kpi-strip .kl{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.3rem;line-height:1.4}
+    @media(max-width:820px){.kpi-strip{grid-template-columns:repeat(2,1fr)}.kpi-strip .k:nth-child(2){border-right:none}}
+
+    /* ── BIG NUMBER (problem) ── */
+    .bignum-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3rem}
+    @media(max-width:820px){.bignum-grid{grid-template-columns:1fr}}
+    .bignum{background:var(--card);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:2rem 1.8rem;position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .35s}
+    .bignum:hover{transform:translateY(-4px);border-color:var(--border)}
+    .bignum .n{font-family:var(--fh);font-size:2.6rem;font-weight:800;letter-spacing:-0.03em;line-height:1;color:var(--danger)}
+    .bignum .n.neutral{color:var(--text)}
+    .bignum .t{font-size:0.9rem;color:var(--muted);margin-top:0.8rem;line-height:1.6}
+    .bignum .src{font-size:0.68rem;color:#4A5250;margin-top:0.7rem;letter-spacing:0.04em}
+
+    /* ── MOTOR GRID (12 of 350) ── */
+    .motorwrap{margin-top:3.5rem;background:var(--card);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:2.2rem 2rem}
+    .motorwrap-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.6rem}
+    .motorwrap-head .big{font-family:var(--fh);font-size:1.3rem;font-weight:800;color:var(--text)}
+    .motorwrap-head .big b{color:var(--c2)}
+    .motorwrap-head .leg{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em}
+    .motorwrap-head .leg .on{color:var(--c2)}
+    .motorgrid{display:grid;grid-template-columns:repeat(35,1fr);gap:5px}
+    .motorgrid .m{aspect-ratio:1;border-radius:2px;background:#1A2220}
+    .motorgrid .m.on{background:var(--c);box-shadow:0 0 8px rgba(15,181,160,0.6)}
+    @media(max-width:820px){.motorgrid{grid-template-columns:repeat(20,1fr)}}
+
+    /* ── SOLUTION 3D SLOT ── */
+    .sol-frame{width:100%;height:82svh;min-height:480px;position:relative;margin-top:2.5rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:radial-gradient(ellipse at 50% 50%,rgba(15,181,160,0.07),transparent 70%),#040807;display:flex;align-items:center;justify-content:center}
+    .sol-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+    .sol-frame .ph{text-align:center;color:var(--muted);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;line-height:2.4}
+    .sol-frame .ph b{display:block;color:var(--c2);font-size:1.1rem;letter-spacing:0.05em;margin-bottom:0.4rem}
+
+    /* ── ANATOMY (hummingbird) ── */
+    .anatomy{display:grid;grid-template-columns:repeat(3,1fr);margin-top:2.5rem;max-width:1060px}
+    .anatomy .part{padding:0.4rem 2.2rem;border-left:1px solid rgba(255,255,255,0.08)}
+    .anatomy .part:first-child{border-left:none;padding-left:0}
+    .anatomy .part:last-child{padding-right:0}
+    .anatomy .pnum{font-family:var(--fh);font-size:2.3rem;font-weight:200;color:rgba(45,224,196,0.42);line-height:1;margin-bottom:1rem}
+    .anatomy .pt{font-family:var(--fh);font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.4rem}
+    .anatomy .pd{font-size:0.86rem;color:var(--muted);line-height:1.7}
+    @media(max-width:820px){.anatomy{grid-template-columns:1fr}.anatomy .part{border-left:none;border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 0}.anatomy .part:first-child{border-top:none;padding-top:0}}
+
+    /* ── SWARM LAYERS ── */
+    .layers{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;margin-top:1.6rem}
+    @media(max-width:820px){.layers{grid-template-columns:1fr}}
+    .layer{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.8rem 1.6rem;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .35s,box-shadow .35s}
+    .layer:hover{transform:translateY(-5px);border-color:var(--border);box-shadow:0 14px 40px rgba(0,0,0,0.4),0 0 26px rgba(15,181,160,0.14)}
+    .layer .ln{font-family:var(--fh);font-size:0.68rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:var(--c2);margin-bottom:0.8rem}
+    .layer h3{font-family:var(--fh);font-size:1.15rem;font-weight:700;margin-bottom:0.6rem}
+    .layer p{font-size:0.9rem;color:var(--muted);line-height:1.7}
+
+    /* ── STEPS (AI, horizontal) ── */
+    .steps3{max-width:1080px;margin:2.5rem auto 0;display:grid;grid-template-columns:repeat(3,1fr)}
+    .steps3 .st{padding:0.4rem 2.2rem;border-left:1px solid rgba(255,255,255,0.08)}
+    .steps3 .st:first-child{border-left:none;padding-left:0}
+    .steps3 .st:last-child{padding-right:0}
+    .steps3 .snum{font-family:var(--fh);font-size:2.3rem;font-weight:200;color:rgba(45,224,196,0.42);line-height:1;margin-bottom:1rem}
+    .steps3 .stt{font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:0.45rem}
+    .steps3 .std{font-size:0.86rem;color:var(--muted);line-height:1.75}
+    @media(max-width:820px){.steps3{grid-template-columns:1fr}.steps3 .st{border-left:none;border-top:1px solid rgba(255,255,255,0.08);padding:1.5rem 0}.steps3 .st:first-child{border-top:none;padding-top:0}}
+
+    /* ── MARKET (concentric rings) ── */
+    .market-viz{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;margin-top:2.5rem}
+    @media(max-width:900px){.market-viz{grid-template-columns:1fr;gap:2rem}}
+    .rings svg{width:100%;max-width:440px;display:block;margin:0 auto;overflow:visible}
+    .ring{fill:none;stroke-width:1.5;opacity:0;transform-origin:center;transform:scale(.6);transition:opacity .9s ease,transform .9s cubic-bezier(.22,.61,.36,1)}
+    .market-viz.visible .ring{opacity:1;transform:scale(1)}
+    .ring-tam{stroke:rgba(126,138,136,0.5);fill:rgba(126,138,136,0.04);transition-delay:.05s}
+    .ring-sam{stroke:rgba(15,181,160,0.55);fill:rgba(15,181,160,0.05);transition-delay:.25s}
+    .ring-som{stroke:var(--c2);fill:rgba(45,224,196,0.14);transition-delay:.45s;filter:drop-shadow(0 0 12px rgba(45,224,196,0.5))}
+    .rt-label{fill:var(--muted);font-family:var(--fh);font-size:15px;font-weight:700;text-anchor:middle;letter-spacing:0.02em}
+    .rt-label.sam{fill:var(--c2);opacity:0.9}
+    .rt-label.som{fill:var(--c2);font-size:13px}
+    .ring-legend{display:flex;flex-direction:column;gap:1.3rem}
+    .rleg{padding-left:1.2rem;border-left:2px solid transparent}
+    .rleg.tam{border-color:rgba(126,138,136,0.5)}
+    .rleg.sam{border-color:rgba(15,181,160,0.55)}
+    .rleg.som{border-color:var(--c2)}
+    .rleg-h{font-family:var(--fh);font-weight:800;font-size:1rem;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.6rem}
+    .rleg .dot{width:9px;height:9px;border-radius:50%}
+    .rleg.tam .dot{background:rgba(126,138,136,0.7)}
+    .rleg.sam .dot{background:var(--c);}
+    .rleg.som .dot{background:var(--c2);box-shadow:0 0 8px var(--c2)}
+    .rleg p{font-size:0.86rem;color:var(--muted);line-height:1.65}
+    .arith{margin-top:2.5rem;padding:2rem 2.2rem;border-radius:16px;background:linear-gradient(120deg,var(--c4),var(--c3));color:#EAFDFB;font-size:clamp(1.1rem,1.8vw,1.45rem);font-weight:700;letter-spacing:-0.01em}
+    .arith b{color:#fff}
+
+    /* ── COMPETITION (RPG cards) ── */
+    .rpg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.5rem}
+    @media(max-width:900px){.rpg-grid{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto}}
+    .rpg{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:1.6rem;position:relative;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .35s,box-shadow .35s}
+    .rpg:hover{transform:translateY(-5px)}
+    .rpg.hero{border-color:var(--border);background:linear-gradient(165deg,rgba(15,181,160,0.10),rgba(15,181,160,0.02));box-shadow:0 0 40px rgba(15,181,160,0.12)}
+    .rpg.hero:hover{box-shadow:0 14px 50px rgba(0,0,0,0.5),0 0 50px rgba(15,181,160,0.22)}
+    .rpg-badge{position:absolute;top:14px;right:14px;font-family:var(--fh);font-size:0.6rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:#00110E;background:var(--c2);padding:3px 10px;border-radius:100px}
+    .rpg-avatar{aspect-ratio:1;border-radius:14px;background:radial-gradient(ellipse at 50% 40%,rgba(15,181,160,0.06),#050908 70%);border:1px solid rgba(255,255,255,0.06);position:relative;overflow:hidden;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:center}
+    .rpg.hero .rpg-avatar{border-color:var(--border);background:radial-gradient(ellipse at 50% 40%,rgba(15,181,160,0.14),#040807 70%)}
+    .rpg-avatar iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+    .rpg-ph{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);text-align:center;padding:1rem}
+    .rpg-class{font-size:0.66rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--c2);margin-bottom:0.2rem}
+    .rpg-name{font-family:var(--fh);font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:1.1rem;line-height:1.2}
+    .rpg-stats{display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1.2rem}
+    .stat{display:grid;grid-template-columns:78px 1fr;gap:0.7rem;align-items:center}
+    .stat span{font-size:0.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
+    .stat .bar{height:7px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden}
+    .stat .bar i{display:block;height:100%;width:0;border-radius:100px;background:#3A4A48;transition:width 1s cubic-bezier(.22,.61,.36,1)}
+    .rpg-grid.visible .stat .bar i{width:var(--v)}
+    .stat .bar.hero i{background:linear-gradient(90deg,var(--c),var(--c2));box-shadow:0 0 10px rgba(45,224,196,0.5)}
+    .rpg-traits{display:flex;flex-direction:column;gap:0.4rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem}
+    .trait{font-size:0.76rem;line-height:1.4}
+    .trait.pos{color:#7FE0D0}
+    .trait.neg{color:#B98A8C}
+
+    /* ── WHY US ── */
+    .founders{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2.5rem}
+    @media(max-width:820px){.founders{grid-template-columns:1fr}}
+    .founder{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.9rem;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .35s,box-shadow .35s}
+    .founder:hover{transform:translateY(-4px);border-color:var(--border);box-shadow:0 14px 40px rgba(0,0,0,0.4),0 0 26px rgba(15,181,160,0.14)}
+    .founder .frole{font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c2);margin-bottom:0.3rem}
+    .founder .fname{font-family:var(--fh);font-size:1.25rem;font-weight:800;margin-bottom:0.9rem}
+    .founder p{font-size:0.9rem;color:var(--muted);line-height:1.75;margin-bottom:0.8rem}
+    .founder p b{color:var(--text);font-weight:600}
+    .founder-photos{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem}
+    @media(max-width:820px){.founder-photos{grid-template-columns:1fr 1fr}}
+    .fphoto{aspect-ratio:1;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:linear-gradient(160deg,#0C1111,#060909);position:relative;display:flex;align-items:flex-end}
+    .fphoto img{width:100%;height:100%;object-fit:cover;display:block}
+    .fphoto .cap{position:absolute;bottom:0;left:0;right:0;padding:0.7rem 1rem;font-family:var(--fh);font-weight:700;font-size:0.85rem;background:linear-gradient(transparent,rgba(0,0,0,0.7));color:#fff;z-index:2}
+    .fphoto .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted)}
+    .validation{margin-top:2.5rem;border-left:2px solid var(--c);padding:1.2rem 0 1.2rem 1.6rem;font-style:italic;color:var(--text);font-size:1.05rem;max-width:60ch}
+    .validation .who{display:block;font-style:normal;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:0.7rem}
+    /* Jean validation with photo */
+    .jean{margin-top:2.8rem;display:grid;grid-template-columns:180px 1fr;gap:2.2rem;align-items:center;background:linear-gradient(120deg,rgba(15,181,160,0.06),transparent);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:2rem 2.2rem}
+    .jean-photo{aspect-ratio:1;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#0C1111;position:relative}
+    .jean-photo img{width:100%;height:100%;object-fit:cover;display:block}
+    .jean-photo .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted)}
+    .jean-quote{position:relative}
+    .jean-mark{font-family:var(--fh);font-size:3.5rem;font-weight:800;color:rgba(45,224,196,0.25);line-height:0.5;height:1.4rem}
+    .jean-quote p{font-size:clamp(1.1rem,1.7vw,1.4rem);font-style:italic;color:var(--text);line-height:1.5;letter-spacing:-0.01em}
+    .jean-quote .who{display:block;font-size:0.8rem;letter-spacing:0.06em;color:var(--muted);margin-top:1rem;font-style:normal;line-height:1.6}
+    .jean-quote .who b{color:var(--c2);font-weight:600}
+    @media(max-width:640px){.jean{grid-template-columns:1fr;text-align:center}.jean-photo{max-width:160px;margin:0 auto}}
+
+    /* ── MODEL (modalities + ladder) ── */
+    .mods{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;margin-top:2.5rem}
+    @media(max-width:820px){.mods{grid-template-columns:1fr}}
+    .mod{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.8rem 1.6rem}
+    .mod .mtag{display:inline-block;font-family:var(--fh);font-size:0.7rem;font-weight:800;letter-spacing:0.12em;color:#000;background:var(--c2);padding:2px 10px;border-radius:100px;margin-bottom:1rem}
+    .mod h3{font-family:var(--fh);font-size:1.05rem;font-weight:700;margin-bottom:0.6rem}
+    .mod p{font-size:0.86rem;color:var(--muted);line-height:1.7}
+    .mod .rev{margin-top:0.9rem;font-size:0.82rem;color:var(--c2);font-weight:600}
+    .ladder{margin-top:2.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;align-items:end}
+    @media(max-width:820px){.ladder{grid-template-columns:1fr}}
+    .rung{padding:1.5rem 1.3rem;background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:16px;position:relative;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .35s,box-shadow .35s}
+    .rung:hover{transform:translateY(-5px);border-color:var(--border);box-shadow:0 14px 40px rgba(0,0,0,0.4),0 0 26px rgba(15,181,160,0.14)}
+    .rung-img{width:100%;aspect-ratio:16/10;border-radius:10px;overflow:hidden;background:linear-gradient(160deg,#0F1616,#080C0B);border:1px solid rgba(255,255,255,0.06);margin-bottom:1.1rem;position:relative}
+    .rung-img img{width:100%;height:100%;object-fit:contain;display:block;padding:8px}
+    .rung-img .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:0.1em;color:var(--muted)}
+    .rung .rn{font-family:var(--fh);font-size:0.64rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--c2);margin-bottom:0.5rem}
+    .rung .rt{font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:0.35rem}
+    .rung .rd{font-size:0.8rem;color:var(--muted);line-height:1.6}
+    /* ascending growth: taller image slot per rung */
+    .rung:nth-child(1) .rung-img{aspect-ratio:16/8}
+    .rung:nth-child(2) .rung-img{aspect-ratio:16/10}
+    .rung:nth-child(3) .rung-img{aspect-ratio:16/12}
+    .rung:nth-child(4) .rung-img{aspect-ratio:16/14}
+    .rung:not(:last-child)::after{content:"→";position:absolute;right:-8px;top:40%;color:var(--c2);z-index:2;font-size:1rem;background:var(--dark);width:16px;text-align:center}
+    @media(max-width:820px){.ladder{align-items:stretch}.rung:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-8px;transform:translateX(50%)}.rung .rung-img{aspect-ratio:16/9!important}}
+
+    /* roadmap (serpentine) */
+    .roadmap{margin-top:2.5rem;position:relative}
+    .road-path{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:0.5}
+    .road-stops{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+    .road-stop{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.6rem 1.4rem;transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .35s,box-shadow .35s}
+    .road-stop:hover{transform:translateY(-5px);border-color:var(--border);box-shadow:0 14px 40px rgba(0,0,0,0.4),0 0 26px rgba(15,181,160,0.14)}
+    .rs-node{width:38px;height:38px;border-radius:50%;background:var(--c);color:#00110E;font-family:var(--fh);font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;box-shadow:0 0 0 5px rgba(15,181,160,0.12)}
+    .rs-tag{font-family:var(--fh);font-size:0.64rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--c2);margin-bottom:0.5rem}
+    .rs-title{font-family:var(--fh);font-size:1.02rem;font-weight:700;margin-bottom:0.45rem;line-height:1.25}
+    .rs-sub{font-size:0.8rem;color:var(--muted);line-height:1.6}
+    @media(max-width:900px){.road-path{display:none}.road-stops{grid-template-columns:1fr;gap:0.9rem}}
+
+    /* ── UNKNOWNS ── */
+    /* risk matrix 2x2 */
+    .riskmatrix{margin-top:2.5rem;display:grid;grid-template-columns:1.1fr 0.9fr;gap:2rem;align-items:stretch}
+    @media(max-width:820px){.riskmatrix{grid-template-columns:1fr}}
+    .rm-plot{position:relative;aspect-ratio:1.15;border:1px solid rgba(255,255,255,0.12);border-radius:16px;background:linear-gradient(135deg,rgba(229,72,77,0.05),transparent 55%);overflow:hidden}
+    .rm-plot::before,.rm-plot::after{content:"";position:absolute;background:rgba(255,255,255,0.07)}
+    .rm-plot::before{left:50%;top:0;bottom:0;width:1px}
+    .rm-plot::after{top:50%;left:0;right:0;height:1px}
+    .rm-quad{position:absolute;font-family:var(--fh);font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.22);padding:10px 12px}
+    .q-tl{top:0;left:0;color:rgba(229,72,77,0.5)}.q-tr{top:0;right:0}.q-bl{bottom:0;left:0}.q-br{bottom:0;right:0}
+    .rm-axis-y{position:absolute;left:8px;top:50%;transform:rotate(-90deg) translateX(50%);transform-origin:left;font-size:0.64rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+    .rm-axis-x{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:0.64rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+    .rm-pt{position:absolute;transform:translate(-50%,50%);width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;font-family:var(--fh);font-weight:800;font-size:0.85rem;color:#00110E;transition:transform .25s,box-shadow .25s}
+    .rm-pt.hi{background:var(--danger);box-shadow:0 0 0 5px rgba(229,72,77,0.14)}
+    .rm-pt.med{background:var(--c2);box-shadow:0 0 0 5px rgba(15,181,160,0.14)}
+    .rm-pt:hover,.rm-pt.active{transform:translate(-50%,50%) scale(1.25);z-index:3}
+    .rm-pt.hi.active{box-shadow:0 0 0 6px rgba(229,72,77,0.3),0 0 24px rgba(229,72,77,0.5)}
+    .rm-pt.med.active{box-shadow:0 0 0 6px rgba(15,181,160,0.3),0 0 24px rgba(15,181,160,0.5)}
+    .rm-detail{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.9rem;display:flex;flex-direction:column;justify-content:center}
+    .rm-d-tag{font-family:var(--fh);font-size:0.66rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--c2);margin-bottom:0.6rem}
+    .rm-d-title{font-family:var(--fh);font-size:1.2rem;font-weight:800;margin-bottom:0.9rem;line-height:1.25}
+    .rm-d-body{font-size:0.88rem;color:var(--muted);line-height:1.7}
+    .rm-d-body b{color:var(--text);font-weight:600}
+    .rm-d-fix{margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.86rem;color:var(--text)}
+    .rm-d-fix b{color:var(--c2)}
+    .bet{margin-top:2.5rem;padding:2rem 2.2rem;border-radius:16px;background:linear-gradient(120deg,var(--c4),var(--c3));color:#EAFDFB;font-size:clamp(1.05rem,1.7vw,1.35rem);font-weight:700;letter-spacing:-0.01em}
+    .bet b{color:#fff}
+
+    /* ── 90-DAY TIMELINE ── */
+    /* mission control */
+    .mission{margin-top:2.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+    @media(max-width:900px){.mission{grid-template-columns:1fr}}
+    .mc-panel{background:linear-gradient(180deg,#0A1211,#060A09);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:1.7rem 1.6rem;position:relative;overflow:hidden;font-family:var(--fh)}
+    .mc-panel.primary{border-color:var(--border);box-shadow:0 0 40px rgba(15,181,160,0.1);background:linear-gradient(180deg,rgba(15,181,160,0.07),#060A09)}
+    .mc-head{display:flex;align-items:center;gap:0.6rem;margin-bottom:1.1rem;font-size:0.64rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase}
+    .mc-dot{width:8px;height:8px;border-radius:50%;background:var(--c2);box-shadow:0 0 8px var(--c2);animation:mcpulse 2s ease-in-out infinite}
+    @keyframes mcpulse{50%{opacity:0.3}}
+    .mc-phase{color:var(--c2)}
+    .mc-window{margin-left:auto;color:var(--muted)}
+    .mc-title{font-size:1.15rem;font-weight:800;line-height:1.2;margin-bottom:0.7rem;color:var(--text)}
+    .mc-status{font-size:0.72rem;color:var(--muted);letter-spacing:0.06em;margin-bottom:1.1rem;font-family:var(--fb)}
+    .mc-status b{color:var(--c2);font-weight:600}
+    .mc-obj{list-style:none;display:flex;flex-direction:column;gap:0.65rem;font-family:var(--fb)}
+    .mc-obj li{font-size:0.82rem;color:#C4CDCB;line-height:1.5;padding-left:1.4rem;position:relative}
+    .mc-obj li::before{content:"▸";position:absolute;left:0;color:var(--c2);font-size:0.75rem}
+    .mc-abort{margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.07);font-size:0.75rem;color:rgba(229,72,77,0.75);font-family:var(--fb);letter-spacing:0.02em}
+    .evidence{margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.8rem 2rem}
+    .evidence .eh{font-family:var(--fh);font-size:0.72rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--c2);margin-bottom:1.1rem}
+    .evidence .erow{display:grid;grid-template-columns:150px 1fr;gap:1.4rem;padding:0.7rem 0;border-top:1px solid rgba(255,255,255,0.06)}
+    .evidence .erow:first-of-type{border-top:none}
+    .evidence .ek{font-family:var(--fh);font-size:0.82rem;font-weight:700;color:var(--text)}
+    .evidence .ev{font-size:0.84rem;color:var(--muted);line-height:1.6}
+    @media(max-width:640px){.evidence .erow{grid-template-columns:1fr;gap:0.3rem}}
+
+    /* ── BUTTONS ── */
+    .btn-p{font-size:0.85rem;font-weight:700;padding:0.95rem 1.8rem;background:var(--c);color:#00110E;border:none;border-radius:100px;cursor:pointer;transition:background .25s,transform .25s,box-shadow .25s;text-decoration:none;display:inline-block}
+    .btn-p:hover{background:var(--c2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(15,181,160,0.3)}
+    .btn-s{font-size:0.85rem;font-weight:700;padding:0.95rem 1.8rem;background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.15);border-radius:100px;cursor:pointer;transition:border-color .25s,transform .25s;text-decoration:none;display:inline-block}
+    .btn-s:hover{border-color:rgba(255,255,255,0.4);transform:translateY(-2px)}
+
+    /* ── CONTACT ── */
+    .contact-meta{margin-top:2rem;display:flex;justify-content:center;align-items:center;gap:0.9rem;flex-wrap:wrap;font-size:0.78rem;color:var(--muted)}
+    .contact-meta i{font-style:normal;color:var(--c2)}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:200;opacity:0;pointer-events:none;transition:opacity .35s ease;padding:1.2rem}
+    .modal-backdrop.open{opacity:1;pointer-events:auto}
+    .modal{background:#080C0B;border:1px solid rgba(255,255,255,0.1);border-radius:20px;max-width:540px;width:100%;padding:2.3rem;position:relative;max-height:90vh;overflow:auto;box-shadow:0 40px 120px rgba(0,0,0,0.7),0 0 60px rgba(15,181,160,0.12);transform:translateY(18px) scale(0.98);transition:transform .4s cubic-bezier(.22,.61,.36,1)}
+    .modal-backdrop.open .modal{transform:none}
+    .modal-title{font-family:var(--fh);font-size:1.4rem;font-weight:800;margin:0.2rem 0 1.6rem}
+    .modal-close{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s}
+    .modal-close:hover{color:var(--text);border-color:rgba(255,255,255,0.3);transform:rotate(90deg)}
+    .contact-form{display:flex;flex-direction:column;gap:1.1rem}
+    .form-group{display:flex;flex-direction:column;gap:0.4rem}
+    .form-label{font-size:0.66rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+    .form-input,.form-textarea{background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.85rem 1.1rem;font-family:var(--fb);font-size:0.92rem;color:var(--text);outline:none;transition:border-color .25s,box-shadow .25s}
+    .form-input:focus,.form-textarea:focus{border-color:var(--c2);box-shadow:0 0 0 3px rgba(15,181,160,0.15)}
+    .form-input::placeholder,.form-textarea::placeholder{color:#4A5250}
+    .form-textarea{min-height:120px;resize:vertical}
+
+    footer{border-top:1px solid var(--border);padding:3rem var(--pad-x);max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+    footer .fc{font-size:0.75rem;color:var(--muted)}
+    footer .conf{font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:#3A4240}
+  </style>
+</head>
+<body>
+
+<div class="spine" aria-hidden="true"><div class="fill" id="spineFill"></div></div>
+
+<nav id="siteNav">
+  <a href="#hero" style="display:flex;align-items:center;text-decoration:none">
+    <img src="logo.png" alt="Calybrix" style="height:34px;width:auto;display:block" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+    <div class="logo-text" style="display:none">Caly<span>brix</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#solution">Solution</a></li>
+    <li><a href="#market">Market</a></li>
+    <li><a href="#competition">Competition</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#model">Model</a></li>
+    <li><a href="#plan">Plan</a></li>
+  </ul>
+  <a href="#" class="nav-cta">Get in touch</a>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<div id="hero">
+  <canvas id="swarm"></canvas>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Calybrix: Industrial reliability intelligence</div>
+      <h1 class="type">Every asset.<br><em>Nothing flying blind.</em></h1>
+      <div class="hero-quote">In a real gas plant we found 350 motors, and only 12 were monitored. <br> The other 338 weren't unimportant. Monitoring them simply wasn't economically viable.</div>
+      <p class="hero-sub">Calybrix makes it possible to monitor the assets that industrial plants have always had to leave unseen and understand when something starts to go wrong.</p>
+      <div class="hero-btns">
+        <a href="#problem" class="btn-p">See the problem</a>
+        <a href="#solution" class="btn-s">The solution</a>
+      </div>
+    </div>
+    <div class="hero-logo">
+      <img src="logo.png" alt="Calybrix" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="ph" style="display:none">[ logo.png ]</div>
+    </div>
+  </div>
+</div>
+
+<div class="kpi-strip">
+  <div class="k"><div class="kv">100%</div><div class="kl">Asset coverage vs. ~3% today</div></div>
+  <div class="k"><div class="kv">&lt;1%</div><div class="kl">Of motors monitored worldwide</div></div>
+  <div class="k"><div class="kv">15 min</div><div class="kl">Install — bolt-on, no wiring</div></div>
+  <div class="k"><div class="kv">€100</div><div class="kl">Per asset / year</div></div>
+</div>
+
+<!-- format ticker -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>Motors<i>·</i></span><span>Pumps<i>·</i></span><span>Compressors<i>·</i></span><span>Fans &amp; HVAC<i>·</i></span><span>Transformers<i>·</i></span><span>Electrical assets<i>·</i></span><span>One system<i>·</i></span><span>Total coverage<i>·</i></span>
+  </div>
+</div>
+
+<!-- ══════════ 1 · THE PROBLEM ══════════ -->
+<div id="problem" class="sec">
+  
+  <div class="sec-label" data-n="01">The Problem</div>
+
+  <h2 class="type">
+    Unplanned downtime is expensive.<br>
+    <em>The problem is that most failures aren't seen coming.</em>
+  </h2>
+
+  <p class="lede reveal">
+    Industrial plants depend on hundreds of rotating and electrical assets.
+    When one fails unexpectedly, production stops and the cost can reach
+    hundreds of thousands or even millions per hour.
+  </p>
+
+  <div class="bignum-grid" data-stagger>
+
+    <div class="bignum">
+      <div class="n" data-count="500000" data-prefix="$" data-suffix="+/hr">$0</div>
+      <div class="t">
+        A forced outage in a combined-cycle gas plant can cost more than
+        $500,000 per hour.
+      </div>
+      <div class="src">
+        One bearing failure on a 400 MW turbine led to $36.7M in lost generation.
+      </div>
+    </div>
+
+    <div class="bignum">
+      <div class="n" data-count="2300000" data-prefix="$" data-suffix="/hr">$0</div>
+      <div class="t">
+        An automotive production line can lose up to $2.3M for every hour it stops.
+      </div>
+      <div class="src">
+        In general manufacturing, downtime averages around $260,000 per hour.
+      </div>
+    </div>
+
+    <div class="bignum">
+      <div class="n neutral" data-count="1400" data-prefix="$" data-suffix="B/yr">$0</div>
+      <div class="t">
+        Estimated annual cost of unplanned downtime for the world's 500 largest companies.
+      </div>
+      <div class="src">
+        Downtime costs are roughly 50% higher today than in 2019.
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="motorwrap reveal">
+
+    <div class="motorwrap-head">
+      <div class="big">
+        <b>12</b> of 350 monitored
+      </div>
+
+      <div class="leg">
+        <span class="on">● Monitored</span>
+        &nbsp; ○ Flying blind
+      </div>
+    </div>
+
+    <div class="motorgrid" id="motorgrid"></div>
+
+    <p class="muted" style="margin-top:1.4rem;font-size:0.9rem;max-width:100%">
+      This is what we found in a real gas plant.
+      Out of 350 motors, only 12 were continuously monitored.
+      The other 338 weren't unimportant monitoring them simply wasn't
+      economically viable.
+    </p>
+
+  </div>
+
+
+  <div class="reveal" style="margin-top:2.5rem;max: width 100%">
+
+    <p class="muted">
+      And this is not just a coverage problem.
+      Most predictive maintenance systems learn from historical failures:
+      they recognise what they have already seen.
+      When a new anomaly appears, or a failure originates somewhere outside
+      the machine itself, identifying the cause becomes much harder.
+    </p>
+
+    <p style="margin-top:1.2rem;font-size:1.1rem;color:var(--text);font-weight:600">
+      The problem isn't a lack of predictive maintenance.
+      <span class="hl">
+        It's the lack of visibility across the majority of industrial assets.
+      </span>
+    </p>
+
+  </div>
+
+</div>
+
+<!-- ══════════ 2 · THE SOLUTION ══════════ -->
+<div id="solution" class="sec-full">
+
+  <div class="sec-inner">
+
+    <div class="sec-label" data-n="02">The Solution</div>
+
+    <h2 class="type">
+      See every asset.<br>
+      <em>Understand every failure.</em>
+    </h2>
+
+    <p class="lede reveal">
+      Calybrix combines low-cost sensing with physics-informed intelligence
+      to monitor industrial assets that are currently left unobserved.
+      Each Hummingbird collects mechanical, electrical and process data,
+      then learns how that specific machine should behave.
+    </p>
+
+  </div>
+
+  <!-- 3D SIMULATION SLOT -->
+  <div class="sol-frame">
+    <iframe id="solFrame" src="simulation.html" allowfullscreen></iframe>
+  </div>
+
+  <div class="sec-inner">
+
+    <div class="anatomy reveal">
+
+      <div class="part">
+        <div class="pnum">01</div>
+        <div class="pt">Mechanical sensing</div>
+        <div class="pd">
+          A compact sensor mounted directly on the machine captures
+          vibration and temperature continuously, with signal processing
+          performed at the edge.
+        </div>
+      </div>
+
+      <div class="part">
+        <div class="pnum">02</div>
+        <div class="pt">Electrical sensing</div>
+        <div class="pd">
+          Split-core current sensors capture the electrical signature
+          of the asset without modifying the existing installation.
+        </div>
+      </div>
+
+      <div class="part">
+        <div class="pnum">03</div>
+        <div class="pt">Process context</div>
+        <div class="pd">
+          Existing process variables provide context around how the
+          machine is operating, connecting mechanical and electrical
+          behaviour to the wider process.
+        </div>
+      </div>
+
+    </div>
+
+
+    <h3
+      style="font-family:var(--fh);font-weight:800;font-size:1.4rem;margin:3.5rem 0 0.4rem"
+      class="reveal">
+
+      From individual assets to the whole plant
+
+    </h3>
+
+
+    <div class="layers" data-stagger>
+
+      <div class="layer">
+        <div class="ln">Layer 01</div>
+        <h3>Adaptive models</h3>
+        <p>
+          Each asset model continuously separates meaningful signal from
+          operational noise and adapts as the machine changes over time.
+        </p>
+      </div>
+
+      <div class="layer">
+        <div class="ln">Layer 02</div>
+        <h3>Plant-level intelligence</h3>
+        <p>
+          The system connects assets across the plant to understand
+          dependencies and trace how a fault propagates.
+        </p>
+      </div>
+
+      <div class="layer">
+        <div class="ln">Layer 03</div>
+        <h3>Decision validation</h3>
+        <p>
+          Multiple models evaluate critical events before an alert becomes
+          an operational recommendation.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<!-- ══════════ 4 · THE MARKET ══════════ -->
+<div id="market" class="sec-full">
+
+  <div class="sec-inner">
+
+    <div class="sec-label" data-n="04">The Market</div>
+
+    <h2 class="type">
+      We don't sell to plants.<br>
+      <em>We scale one asset at a time.</em>
+    </h2>
+
+    <p class="lede reveal">
+      Our entry point is the industrial motor: a widely deployed asset,
+      often critical to the process, but rarely monitored because the
+      economics don't justify traditional systems.
+      At €100 per asset per year, the market is measured in installed assets —
+      not in the number of industrial sites.
+    </p>
+
+
+    <div class="market-viz reveal">
+
+      <div class="rings">
+
+        <svg viewBox="0 0 440 440" id="ringsvg">
+          <circle class="ring ring-tam" cx="220" cy="220" r="200"/>
+          <circle class="ring ring-sam" cx="220" cy="300" r="120"/>
+          <circle class="ring ring-som" cx="220" cy="360" r="52"/>
+
+          <text x="220" y="70" class="rt-label">
+            TAM · €118B
+          </text>
+
+          <text x="220" y="230" class="rt-label sam">
+            SAM · €20B
+          </text>
+
+          <text x="220" y="366" class="rt-label som">
+            SOM · €200M
+          </text>
+        </svg>
+
+      </div>
+
+
+      <div class="ring-legend" data-stagger>
+
+        <div class="rleg tam">
+
+          <div class="rleg-h">
+            <span class="dot"></span>
+            TAM — €118B / year
+          </div>
+
+          <p>
+            We start with motors, but the same sensing architecture can
+            extend to pumps, compressors, fans, HVAC systems and electrical
+            assets such as transformers.
+            That represents more than one billion electromechanical assets
+            worldwide at our target price point.
+          </p>
+
+        </div>
+
+
+        <div class="rleg sam">
+
+          <div class="rleg-h">
+            <span class="dot"></span>
+            SAM — €20B / year
+          </div>
+
+          <p>
+            Around 200 million of those assets operate in critical industries:
+            power generation, refining, petrochemicals, critical HVAC and
+            high-volume manufacturing.
+            These are environments where downtime creates a direct and
+            measurable economic loss.
+          </p>
+
+        </div>
+
+
+        <div class="rleg som">
+
+          <div class="rleg-h">
+            <span class="dot"></span>
+            SOM — €200M ARR
+          </div>
+
+          <p>
+            Our initial target is 1% of the serviceable market.
+            We enter through gas power generation, where a typical plant
+            contains hundreds of motors and provides a clear land-and-expand
+            path into adjacent assets and additional sites.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="arith reveal">
+      A plant with 350 motors represents
+      <b>€35,000/year in recurring revenue.</b>
+      One unplanned outage can cost millions.
+    </div>
+
+
+    <div class="reveal"
+         style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;max-width:none">
+
+      <div>
+
+        <div class="sec-label"
+             data-n=""
+             style="color:var(--muted)">
+          Why this market is opening now
+        </div>
+
+        <p class="muted" style="font-size:0.92rem">
+
+          <b style="color:var(--text)">Hardware costs have fallen.</b>
+          Low-cost MEMS sensors, wireless connectivity and edge computing
+          now make continuous monitoring economically viable for assets that
+          were previously too expensive to instrument.
+
+          <br><br>
+
+          <b style="color:var(--text)">Industrial assets are becoming more critical.</b>
+          New power demand, ageing infrastructure and increasingly complex
+          industrial systems increase the cost of unexpected failure.
+
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <div class="sec-label"
+             data-n=""
+             style="color:var(--muted)">
+          Why plants need it now
+        </div>
+
+        <p class="muted" style="font-size:0.92rem">
+
+          <b style="color:var(--text)">Downtime is getting more expensive.</b>
+          Plants are under increasing pressure to maximise availability
+          while avoiding unplanned maintenance events.
+
+          <br><br>
+
+          <b style="color:var(--text)">Maintenance teams are getting smaller.</b>
+          Operators need systems that help prioritise attention and identify
+          where problems originate not another layer of alarms.
+
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ══════════ 5 · THE COMPETITION ══════════ -->
+<div id="competition" class="sec">
+
+  <div class="sec-label" data-n="05">The Competition</div>
+
+  <h2 class="type">
+    The problem isn't a lack of solutions.<br>
+    <em>It's that each solves only part of it.</em>
+  </h2>
+
+  <p class="lede reveal">
+    Today's market is split between software that analyses existing data,
+    premium monitoring systems for selected critical assets, and manual
+    inspection. None are designed to make broad, continuous monitoring
+    economically viable across an entire plant.
+  </p>
+
+
+  <div class="rpg-grid" data-stagger>
+
+
+    <!-- Enterprise Software -->
+
+    <div class="rpg">
+
+      <div class="rpg-avatar">
+        <!-- <iframe src="char-enterprise.html" allowfullscreen></iframe> -->
+        <div class="rpg-ph">[ char-enterprise.html ]</div>
+      </div>
+
+      <div class="rpg-class">
+        Enterprise software
+      </div>
+
+      <div class="rpg-name">
+        IBM Maximo · Siemens Senseye
+      </div>
+
+      <div class="rpg-traits">
+
+        <div class="trait pos">
+          ⊕ Works with existing plant data
+        </div>
+
+        <div class="trait pos">
+          ⊕ Strong on already-instrumented assets
+        </div>
+
+        <div class="trait neg">
+          ⊖ Cannot see assets that generate no data
+        </div>
+
+        <div class="trait neg">
+          ⊖ Requires integration with existing infrastructure
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Machine Health -->
+
+    <div class="rpg">
+
+      <div class="rpg-avatar">
+        <!-- <iframe src="char-augury.html" allowfullscreen></iframe> -->
+        <div class="rpg-ph">[ char-augury.html ]</div>
+      </div>
+
+      <div class="rpg-class">
+        Machine health monitoring
+      </div>
+
+      <div class="rpg-name">
+        Augury · Tractian
+      </div>
+
+      <div class="rpg-traits">
+
+        <div class="trait pos">
+          ⊕ Continuous monitoring of critical machines
+        </div>
+
+        <div class="trait pos">
+          ⊕ Strong vibration-based diagnostics
+        </div>
+
+        <div class="trait neg">
+          ⊖ Premium economics limit broad deployment
+        </div>
+
+        <div class="trait neg">
+          ⊖ Focused primarily on rotating equipment
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Calybrix -->
+
+    <div class="rpg hero">
+
+      <div class="rpg-avatar">
+        <!-- <iframe src="char-calybrix.html" allowfullscreen></iframe> -->
+        <div class="rpg-ph">[ char-calybrix.html ]</div>
+      </div>
+
+      <div class="rpg-class">
+        Broad asset intelligence
+      </div>
+
+      <div class="rpg-name">
+        Calybrix
+      </div>
+
+      <div class="rpg-traits">
+
+        <div class="trait pos">
+          ⊕ Designed for broad asset coverage
+        </div>
+
+        <div class="trait pos">
+          ⊕ Mechanical, electrical and process signals
+        </div>
+
+        <div class="trait pos">
+          ⊕ Models individual asset behaviour
+        </div>
+
+        <div class="trait pos">
+          ⊕ Connects faults across the wider plant
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="reveal"
+       style="margin-top:3rem;max-width:90ch">
+
+    <p class="muted">
+      Enterprise platforms analyse the data plants already collect.
+      Machine-health specialists add monitoring where the economics justify it.
+      The gap is everything in between: the hundreds of assets that remain
+      unmonitored because traditional approaches do not scale economically.
+    </p>
+
+    <p style="margin-top:1.2rem;font-size:1.1rem;color:var(--text);font-weight:600">
+      <span class="hl">
+        Calybrix is built for that gap: broad coverage first,
+        intelligence on top.
+      </span>
+    </p>
+
+  </div>
+
+</div>
+
+<!-- ══════════ 6 · WHY US ══════════ -->
+<div id="team" class="sec-full">
+
+  <div class="sec-inner">
+
+    <div class="sec-label" data-n="06">Why Us</div>
+
+    <h2 class="type">
+      Built from the machine up.<br>
+      <em>And from the failure back.</em>
+    </h2>
+
+
+    <div class="founders" data-stagger>
+
+
+      <!-- MIGUEL -->
+
+      <div class="founder">
+
+        <div class="frole">
+          The intelligence &amp; the hardware
+        </div>
+
+        <div class="fname">
+          Miguel Jiménez Sarria
+        </div>
+
+        <p>
+          Energy engineer specialised in power generation and turbomachinery,
+          currently working in the energy sector at Elecnor do Brasil.
+          He <b>built and operated a gas turbine prototype from a truck
+          turbocharger</b>, taking it beyond 80,000 rpm and generating electricity.
+        </p>
+
+        <p>
+          He designed the instrumentation around it himself <b>integrating
+          SCADA, PLC control and temperature, pressure and speed sensing</b>.
+          That experience sits directly at the intersection of Calybrix:
+          understanding the physical asset, capturing its signals and turning
+          them into a working monitoring system.
+        </p>
+
+      </div>
+
+
+      <!-- ALBERTO -->
+
+      <div class="founder">
+
+        <div class="frole">
+          The business &amp; the strategy
+        </div>
+
+        <div class="fname">
+          Alberto Gil Cordero
+        </div>
+
+        <p>
+          Engineer focused on turning complex industrial systems into
+          actionable models. His recent work has centred on
+          <b>physics-informed AI, predictive maintenance and digital twins</b>
+          including a factory-floor prototype designed to detect equipment
+          failures using physical models and continuous learning.
+        </p>
+
+       <p> He brings the business side of Calybrix, with multiple ventures launched, partnerships built, and goals achieved, <b>as demonstrated by international awards, multiple hackathon victories, and more than €50k in non-dilutive funding</b>. Currently completing his MBA at Collège des Ingénieurs while working in a manufacturing company, he adds the startup, strategy, and execution expertise needed to turn the technology into a successful company. </p>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- PHOTOS -->
+
+    <div class="founder-photos reveal">
+
+      <div class="fphoto">
+
+        <img
+          src="Miguel.png"
+          alt="Miguel Jiménez Sarria"
+          onerror="this.style.display='none';this.parentElement.querySelector('.ph').style.display='flex'"
+        />
+
+        <div class="ph" style="display:none">
+          [ Miguel.jpg ]
+        </div>
+
+        <div class="cap">
+          Miguel Jiménez Sarria
+        </div>
+
+      </div>
+
+
+      <div class="fphoto">
+
+        <img
+          src="alberto.png"
+          alt="Alberto Gil Cordero"
+          onerror="this.style.display='none';this.parentElement.querySelector('.ph').style.display='flex'"
+        />
+
+        <div class="ph" style="display:none">
+          [ Alberto.jpg ]
+        </div>
+
+        <div class="cap">
+          Alberto Gil Cordero
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- JEAN -->
+
+    <div class="jean reveal">
+
+      <div class="jean-photo">
+
+        <img
+          src="Jean.png"
+          alt="Jean-Christophe Guerin"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+        />
+
+        <div class="ph" style="display:none">
+          [ Jean.jpg ]
+        </div>
+
+      </div>
+
+
+      <div class="jean-quote">
+
+        <div class="jean-mark">"</div>
+
+        <p>
+          The problem is real, and Calybrix addresses three gaps that
+          existing solutions leave open.
+        </p>
+
+        <span class="who">
+          Jean-Christophe Guerin<br>
+          <b>Former EVP of Manufacturing · Michelin</b>
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- TRACK RECORD -->
+
+    <p class="muted reveal"
+       style="margin-top:2rem;font-size:0.92rem;max-width:100%">
+
+      This is not the team's first deep-tech venture.
+      The founders have already taken complex energy and AI concepts from
+      technical idea to prototype, EIC Pathfinder applications through partnerships with CEA, Politecnico de Milano, Universidad Politecnica de Madrid and EIT Innoenergy, and competitions and external validation
+      including <span class="hl">1st prize at EIT Jumpstarter 2025</span>
+      in Energy &amp; Renewables and
+      <span class="hl">multiple international awards through different ventures and individual projects</span>.
+
+      More importantly, Calybrix did not start from a market report.
+      It started from a win in one of the biggest hackatoms in Europe:
+      <span class="hl">RAISE Submmit Paris 2026.</span>
+
+    </p>
+
+  </div>
+
+</div>
+
+<!-- ══════════ 7 · THE MODEL ══════════ -->
+<div id="model" class="sec">
+  <div class="sec-label" data-n="07">The Model</div>
+
+  <h2 class="type">Two parts: <em>sensor and intelligence.</em></h2>
+  <p class="lede reveal">Flexible entry, then expansion within the same customer.</p>
+
+  <div class="mods" data-stagger>
+    <div class="mod">
+      <span class="mtag">Mode A</span>
+      <h3>Sensor + intelligence</h3>
+      <p>For customers with no instrumentation. We deploy the sensor and our AI together — our main entry point today.</p>
+      <div class="rev">€100/asset/yr + low one-off hardware</div>
+    </div>
+
+    <div class="mod">
+      <span class="mtag">Mode B</span>
+      <h3>AI layer only</h3>
+      <p>For customers with existing sensors and data. We connect to their SCADA/PLC and use the signals they already have.</p>
+      <div class="rev">Software subscription · highest margin</div>
+    </div>
+
+    <div class="mod">
+      <span class="mtag">Mode C</span>
+      <h3>Low-cost hardware</h3>
+      <p>We can price the hardware aggressively to maximize coverage, while monetizing the intelligence layer.</p>
+      <div class="rev">Low-cost entry · monetize intelligence</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-weight:800;font-size:1.4rem;margin:3.5rem 0 0.4rem" class="reveal">
+    Land-and-expand
+  </h3>
+
+  <div class="ladder reveal">
+    <div class="rung" style="--grow:1">
+      <div class="rung-img">
+        <img src="expand-1.png" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="ph" style="display:none">expand-1.png</div>
+      </div>
+      <div class="rn">Land</div>
+      <div class="rt">10 motors</div>
+      <div class="rd">Start with a few critical motors on one line.</div>
+    </div>
+
+    <div class="rung" style="--grow:2">
+      <div class="rung-img">
+        <img src="expand-2.png" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="ph" style="display:none">expand-2.png</div>
+      </div>
+      <div class="rn">Expand · plant</div>
+      <div class="rt">350 motors</div>
+      <div class="rd">Proven value → expand to the full plant.</div>
+    </div>
+
+    <div class="rung" style="--grow:3">
+      <div class="rung-img">
+        <img src="expand-3.png" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="ph" style="display:none">expand-3.png</div>
+      </div>
+      <div class="rn">Expand · asset</div>
+      <div class="rt">Pumps &amp; transformers</div>
+      <div class="rd">Same hardware, same intelligence, more assets.</div>
+    </div>
+
+    <div class="rung" style="--grow:4">
+      <div class="rung-img">
+        <img src="expand-4.png" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="ph" style="display:none">expand-4.png</div>
+      </div>
+      <div class="rn">Expand · fleet</div>
+      <div class="rt">Multi-site</div>
+      <div class="rd">From one plant to the operator's full fleet.</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--fh);font-weight:800;font-size:1.4rem;margin:3.5rem 0 0.4rem" class="reveal">
+    From one motor to an industry
+  </h3>
+
+  <div class="roadmap reveal">
+    <svg class="road-path" viewBox="0 0 1200 340" preserveAspectRatio="none" aria-hidden="true">
+      <path id="rpath"
+        d="M 80,60 L 1120,60 Q 1160,60 1160,120 Q 1160,170 1120,170 L 80,170 Q 40,170 40,230 Q 40,280 80,280 L 1120,280"
+        fill="none"
+        stroke="url(#rgrad)"
+        stroke-width="2"
+        stroke-dasharray="6 8"/>
+      <defs>
+        <linearGradient id="rgrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="var(--c3)"/>
+          <stop offset="1" stop-color="var(--c2)"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <div class="road-stops">
+
+      <div class="road-stop">
+        <div class="rs-node">1</div>
+        <div class="rs-tag">Phase 1 · Energy</div>
+        <div class="rs-title">Gas generation</div>
+        <div class="rs-sub">
+          Our beachhead. High cost of failure, clear use case, known physics.
+        </div>
+      </div>
+
+      <div class="road-stop">
+        <div class="rs-node">2</div>
+        <div class="rs-tag">Phase 2 · Process</div>
+        <div class="rs-title">Manufacturing &amp; petrochem</div>
+        <div class="rs-sub">
+          Same hardware, more assets per plant.
+        </div>
+      </div>
+
+      <div class="road-stop">
+        <div class="rs-node">3</div>
+        <div class="rs-tag">Phase 3 · Data</div>
+        <div class="rs-title">Critical components</div>
+        <div class="rs-sub">
+          Real failure data at scale. Predict and certify component life.
+        </div>
+      </div>
+
+      <div class="road-stop">
+        <div class="rs-node">4</div>
+        <div class="rs-tag">Phase 4 · Reliability</div>
+        <div class="rs-title">Aviation · defense · nuclear</div>
+        <div class="rs-sub">
+          High-reliability industries where failure is catastrophic.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 8 · THE UNKNOWNS ══════════ -->
+<div id="unknowns" class="sec-full">
+  <div class="sec-inner">
+    <div class="sec-label" data-n="08">The Unknowns</div>
+    <h2 class="type">The highest-impact, lowest-certainty assumptions <em>ordered by risk.</em></h2>
+    <p class="lede reveal">We know exactly what we're betting on, and how we de-risk each one.</p>
+
+    <div class="riskmatrix reveal">
+      <div class="rm-plot">
+        <div class="rm-axis-y">Impact →</div>
+        <div class="rm-axis-x">Certainty →</div>
+        <div class="rm-quad q-tl">Focus now</div>
+        <div class="rm-quad q-tr">Monitor</div>
+        <div class="rm-quad q-bl">Watch</div>
+        <div class="rm-quad q-br">Low priority</div>
+        <!-- points: left/bottom = %, high impact = high, low certainty = left -->
+        <button class="rm-pt hi" style="left:16%;bottom:82%" data-i="0">1</button>
+        <button class="rm-pt hi" style="left:9%;bottom:90%" data-i="1">2</button>
+        <button class="rm-pt hi" style="left:20%;bottom:72%" data-i="2">3</button>
+        <button class="rm-pt hi" style="left:11%;bottom:66%" data-i="3">4</button>
+        <button class="rm-pt med" style="left:7%;bottom:52%" data-i="4">5</button>
+        <button class="rm-pt med" style="left:46%;bottom:44%" data-i="5">6</button>
+      </div>
+      <div class="rm-detail" id="rmDetail">
+        <div class="rm-d-tag">Select a risk</div>
+        <div class="rm-d-title">Six assumptions, mapped</div>
+        <div class="rm-d-body">Every dot is an assumption placed by <b>impact</b> (vertical) and <b>certainty</b> (horizontal). Top-left = highest impact, lowest certainty — what we de-risk first. Tap a number to see the bet and how we retire it.</div>
+      </div>
+    </div>
+
+    <div id="rmData" style="display:none">
+      <div data-tag="1 · Price &amp; unit economics" data-risk="High impact · Med certainty">Our entire sizing hangs on €100/asset/year, an assumption, not a market-validated fact. We don't yet know if a client pays €100 for a motor they ignore today, the real one-off/recurring split, or our true cost per asset.|| A paid pilot that validates price and real cost per asset before scaling.</div>
+      <div data-tag="2 · Predicting the never-seen" data-risk="High impact · Med-Low certainty">Our biggest promise is also the hardest to prove. We don't yet know our false-positive/false-negative rate in real production, or how many weeks ahead we reliably predict. A false positive erodes trust; a false negative kills the contract.|| Validation against real failures in the pilot, measuring the lift from plant recalibration.</div>
+      <div data-tag="3 · Wireless install at scale" data-risk="High impact · Med certainty">"15 minutes, no wiring, €100" is clean on one machine. We don't know how the Zigbee mesh behaves with hundreds of nodes in a real industrial environment, interference, range, metal, latency.|| Measure a full plant deployment, not a single machine.</div>
+      <div data-tag="4 · Sales cycle &amp; who decides" data-risk="High impact · Med-Low certainty">We assume land-and-expand where the user pilots 10 motors and the operator signs the expansion. We don't know the true cycle length in heavy industry, who holds the budget, or if "don't touch the working DCS" slows adoption.|| Turn the Guerin validation into a letter of intent or first pilot with a real operator.</div>
+      <div data-tag="5 · Serviceable market size" data-risk="Med-High impact · Low certainty">The motor TAM (380M) is anchored in data. But the SAM and the pump/compressor/transformer populations of Circle 2 are order-of-magnitude estimates, with no clean public census.|| Refine bottom-up per vertical as we close the first real clients.</div>
+      <div data-tag="6 · Defensibility vs. incumbents" data-risk="Med impact · Med certainty">We assume the moat is data + traceability + cheap coverage. We don't know how long an Augury or Siemens would take to launch a low-cost sensor and drop into our niche if we validate it first.|| Accumulate failure-fingerprint volume fast first and furthest wins.</div>
+    </div>
+
+    <div class="bet reveal">The assumption we bet the most on: that the client pays €100 to see an asset they ignore today, and that our prediction of the never-seen is reliable in the field. <b>If those two are true, the rest is execution.</b></div>
+  </div>
+</div>
+
+<!-- ══════════ 9 · THE PLAN ══════════ -->
+<div id="plan" class="sec">
+  <div class="sec-label" data-n="09">Your Plan</div>
+
+  <h2 class="type">The first 90 days — <em>prove it in the field.</em></h2>
+
+  <p class="lede reveal">
+    Two things matter most: will customers pay, and can we predict real failures?
+    We answer both by getting into plants and collecting real data.
+  </p>
+
+  <div class="mission" data-stagger>
+
+    <div class="mc-panel">
+      <div class="mc-head">
+        <span class="mc-dot"></span>
+        <span class="mc-phase">Phase 01</span>
+        <span class="mc-window">Days 1–30</span>
+      </div>
+
+      <div class="mc-title">Talk to customers &amp; sign LOIs</div>
+      <div class="mc-status">Status: <b>Customer discovery</b></div>
+
+      <ul class="mc-obj">
+        <li>15–20 conversations with reliability &amp; O&amp;M teams</li>
+        <li>Turn Guerin's validation into operator meetings</li>
+        <li>Offer pilots at marginal cost in exchange for data access</li>
+        <li>Define the conversion to €100/asset/year</li>
+      </ul>
+
+      <div class="mc-abort">✕ No final product yet</div>
+    </div>
+
+
+    <div class="mc-panel">
+      <div class="mc-head">
+        <span class="mc-dot"></span>
+        <span class="mc-phase">Phase 02</span>
+        <span class="mc-window">Days 31–60</span>
+      </div>
+
+      <div class="mc-title">Build the sensors &amp; enter the plant</div>
+      <div class="mc-status">Status: <b>Hardware live</b></div>
+
+      <ul class="mc-obj">
+        <li>Build the vibration puck + current CTs</li>
+        <li>Pre-validate the model on public datasets</li>
+        <li>Connect hardware, real signals and the model</li>
+        <li>Install on the first 10–20 assets</li>
+      </ul>
+
+      <div class="mc-abort">✕ No full-scale deployment yet</div>
+    </div>
+
+
+    <div class="mc-panel primary">
+      <div class="mc-head">
+        <span class="mc-dot"></span>
+        <span class="mc-phase">Phase 03</span>
+        <span class="mc-window">Days 61–90</span>
+      </div>
+
+      <div class="mc-title">Train on real data &amp; prove prediction</div>
+      <div class="mc-status">Status: <b>Decisive experiment</b></div>
+
+      <ul class="mc-obj">
+        <li>Run the model on live plant data</li>
+        <li>Measure installation, network performance and accuracy</li>
+        <li>Test whether the LOI converts into a paying customer</li>
+        <li>Focus on a few assets across several plants</li>
+      </ul>
+
+      <div class="mc-abort">✕ No full-plant rollout yet</div>
+    </div>
+
+  </div>
+
+
+  <div class="evidence reveal">
+
+    <div class="eh">What we need to prove in 90 days</div>
+
+    <div class="erow">
+      <div class="ek">Demand</div>
+      <div class="ev">
+        Several LOIs signed, with at least one converting to a paying customer.
+      </div>
+    </div>
+
+    <div class="erow">
+      <div class="ek">Real data</div>
+      <div class="ev">
+        Sensors installed and collecting data across several plants.
+      </div>
+    </div>
+
+    <div class="erow">
+      <div class="ek">Precision</div>
+      <div class="ev">
+        At least one real failure predicted weeks in advance using plant data.
+      </div>
+    </div>
+
+    <div class="erow">
+      <div class="ek">Cost / deploy</div>
+      <div class="ev">
+        Measure installation time, cost per asset and network stability.
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ══════════ CONTACT ══════════ -->
+<div class="sec-full" style="text-align:center">
+  <div class="sec-inner">
+    <div class="sec-label" data-n="" style="display:flex;justify-content:center">Let's talk</div>
+    <h2 class="type" style="margin-left:auto;margin-right:auto">Cheap eyes on 100% of the plant. <br> <em>Let's put them there.</em></h2>
+    <p class="muted reveal" style="max-width:52ch;margin:0 auto 2.4rem"> If you let us join the flying wheel program, we will reshape together the manufacturing industry.</p>
+    <button class="btn-p" id="openContact" type="button" style="font-size:0.95rem;padding:1.05rem 2.6rem">Get in touch</button>
+    <div class="contact-meta reveal"><span>Calybrix</span><i>·</i><span></span>RAISE Summit 2026 Winner<i>·</i><span>The future of predictive maintenance</span></div>
+  </div>
+</div>
+
+<!-- contact modal -->
+<div class="modal-backdrop" id="contactModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="modal-close" id="closeContact" type="button" aria-label="Close">✕</button>
+    <div class="sec-label" data-n="">Contact</div>
+    <h3 class="modal-title">Request the pilot &amp; data</h3>
+    <form class="contact-form" action="#" method="POST">
+      <div class="form-group"><label class="form-label">Name</label><input class="form-input" type="text" name="name" placeholder="Full name"/></div>
+      <div class="form-group"><label class="form-label">Fund / organization</label><input class="form-input" type="text" name="org" placeholder="Fund or company"/></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" name="email" placeholder="you@email.com"/></div>
+      <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" name="message" placeholder="What would you like to see?"></textarea></div>
+      <button type="submit" class="btn-p" style="width:100%;text-align:center;border:none">Send</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="logo-text">Caly<span>brix</span></div>
+  <div class="fc">© 2026 Calybrix. Turning invisible assets into visible risk.</div>
+  <div class="conf">Confidential · Investor materials</div>
+</footer>
+
+<script>
+  // spine + nav
+  const spineFill=document.getElementById('spineFill'),siteNav=document.getElementById('siteNav');
+  addEventListener('scroll',()=>{const h=document.documentElement;if(spineFill)spineFill.style.height=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';if(siteNav)siteNav.classList.toggle('scrolled',h.scrollTop>40);},{passive:true});
+
+  // marquee
+  const track=document.getElementById('marqueeTrack');if(track)track.innerHTML+=track.innerHTML;
+
+  // typewriter
+  const CD=24;
+  function wrap(el){let c=0;(function w(n){[...n.childNodes].forEach(ch=>{if(ch.nodeType===3){const f=document.createDocumentFragment();[...ch.textContent].forEach(x=>{const s=document.createElement('span');s.className='ch';s.textContent=x;s.style.transitionDelay=(c++*CD)+'ms';f.appendChild(s);});ch.replaceWith(f);}else if(ch.nodeType===1&&ch.tagName!=='BR')w(ch);});})(el);const car=document.createElement('span');car.className='caret';el.appendChild(car);el.dataset.dur=c*CD;}
+  document.querySelectorAll('.type').forEach(wrap);
+  const tIO=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;el.classList.add('typed','typing');setTimeout(()=>el.classList.remove('typing'),+el.dataset.dur+900);tIO.unobserve(el);});},{threshold:.4});
+  document.querySelectorAll('.type').forEach(el=>tIO.observe(el));
+
+  // reveal + stagger
+  const rIO=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('visible');if(e.target.hasAttribute('data-stagger'))[...e.target.children].forEach((c,i)=>c.style.transitionDelay=(i*120)+'ms');rIO.unobserve(e.target);});},{threshold:.14});
+  document.querySelectorAll('.reveal,[data-stagger]').forEach(el=>rIO.observe(el));
+
+  // motor grid 350 (12 on)
+  const mg=document.getElementById('motorgrid');
+  if(mg){const on=new Set();while(on.size<12)on.add(Math.floor(Math.random()*350));for(let i=0;i<350;i++){const d=document.createElement('div');d.className='m'+(on.has(i)?' on':'');mg.appendChild(d);}}
+
+  // count-up
+  function fmt(n,p,s){let v;if(n>=1000000)v=(n/1000000).toFixed(1).replace('.0','')+'M';else if(n>=1000)v=(n/1000).toFixed(0)+'K';else v=n;
+    // special: 1400 -> 1.4, 500000 -> 500K etc handled above; billions label via suffix
+    return (p||'')+v+(s||'');}
+  const cIO=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,target=+el.dataset.count,p=el.dataset.prefix||'',s=el.dataset.suffix||'';let cur=0;const steps=40,inc=target/steps;const t=setInterval(()=>{cur+=inc;if(cur>=target){cur=target;clearInterval(t);}
+    let disp;if(target===1400)disp='1.4';else if(target>=1000000)disp=(cur/1000000).toFixed(1).replace(/\.0$/,'');else if(target>=1000)disp=Math.round(cur/1000)+'K';else disp=Math.round(cur);
+    el.textContent=p+disp+s;},22);cIO.unobserve(el);});},{threshold:.5});
+  document.querySelectorAll('[data-count]').forEach(el=>cIO.observe(el));
+
+  // swarm canvas
+  const cv=document.getElementById('swarm');
+  if(cv){const ctx=cv.getContext('2d');let W,H,pts;
+    function rs(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;pts=[];const n=Math.min(70,Math.floor(W/26));for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,on:Math.random()<.16});}
+    rs();addEventListener('resize',rs);
+    (function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){const a=pts[i];a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>W)a.vx*=-1;if(a.y<0||a.y>H)a.vy*=-1;for(let j=i+1;j<pts.length;j++){const b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy);if(d<130){ctx.strokeStyle='rgba(15,181,160,'+(0.10*(1-d/130))+')';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}}
+    pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.on?2.6:1.5,0,7);ctx.fillStyle=p.on?'rgba(45,224,196,0.9)':'rgba(120,140,138,0.35)';ctx.fill();});requestAnimationFrame(draw);})();}
+
+  // risk matrix interaction
+  const rmPts=document.querySelectorAll('.rm-pt'),rmData=document.querySelectorAll('#rmData > div'),rmDetail=document.getElementById('rmDetail');
+  rmPts.forEach(pt=>{pt.addEventListener('click',()=>{
+    rmPts.forEach(p=>p.classList.remove('active'));pt.classList.add('active');
+    const d=rmData[+pt.dataset.i];if(!d)return;
+    const parts=d.innerHTML.split('||');
+    rmDetail.innerHTML='<div class="rm-d-tag">'+d.dataset.risk+'</div><div class="rm-d-title">'+d.dataset.tag+'</div><div class="rm-d-body">'+parts[0]+'</div><div class="rm-d-fix"><b>De-risk →</b> '+(parts[1]||'')+'</div>';
+  });});
+
+  // contact modal
+  const cm=document.getElementById('contactModal'),oc=document.getElementById('openContact'),cc=document.getElementById('closeContact');
+  function om(e){if(e)e.preventDefault();cm.classList.add('open');document.body.style.overflow='hidden';}
+  function clm(){cm.classList.remove('open');document.body.style.overflow='';}
+  if(cm){if(oc)oc.addEventListener('click',om);document.querySelectorAll('.nav-cta').forEach(b=>b.addEventListener('click',om));if(cc)cc.addEventListener('click',clm);cm.addEventListener('click',e=>{if(e.target===cm)clm();});addEventListener('keydown',e=>{if(e.key==='Escape')clm();});}
+</script>
+</body>
+</html>
