@@ -4,14 +4,6 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Calybrix — Total coverage. Near-zero cost.</title>
-  <!-- ==== CALYBRIX GATE: pre-lock (evita el salto de scroll al cargar) ==== -->
-  <style>html.cbx-lock,body.cbx-lock{overflow:hidden!important}</style>
-  <script>
-    if(location.search.indexOf('preview')===-1){
-      document.documentElement.classList.add('cbx-lock');
-    }
-  </script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
@@ -1760,80 +1752,6 @@
 
   // deep link: ?deck  or  #deck
   if(location.search.indexOf('deck')>-1||location.hash==='#deck')addEventListener('load',enter);
-})();
-</script>
-
-
-<!-- ═══════════════ CALYBRIX GATE ═══════════════
-     top.html se superpone a pantalla completa, con la web difuminada detras.
-     Pon top.html en esta misma carpeta.
-
-     IMPORTANTE: top.html tiene que declarar su propio fondo transparente
-     o el iframe se vera opaco. Mira el LEEME.
-
-     Ajusta el velo en :root de abajo  ->  --cbx-dim  /  --cbx-blur
-     Para ver la web sin overlay:  tusitio.com/?preview
-     ═════════════════════════════════════════════ -->
-<style>
-  :root{
-    --cbx-dim:0;      /* 0 = web a pleno color · 1 = web tapada del todo */
-    --cbx-blur:0px;   /* desenfoque de la web de detras. 0px la deja nitida */
-  }
-  html.cbx-lock{overflow:hidden!important;overscroll-behavior:none}
-  body.cbx-lock{position:fixed!important;left:0;top:0;right:0;width:100%;
-    overflow:hidden!important;overscroll-behavior:none}
-
-  .cbx-gate{position:fixed;inset:0;z-index:2147483000;background:transparent}
-
-  /* velo entre la web y la presentacion */
-  .cbx-gate::before{content:"";position:absolute;inset:0;
-    background:rgba(4,7,14,var(--cbx-dim));
-    backdrop-filter:blur(var(--cbx-blur));
-    -webkit-backdrop-filter:blur(var(--cbx-blur))}
-
-  .cbx-gate iframe{position:relative;display:block;width:100%;height:100%;
-    border:0;background:transparent}
-</style>
-
-<div class="cbx-gate" id="cbxGate" role="dialog" aria-modal="true"
-     aria-label="Calybrix">
-  <iframe id="cbxFrame" src="top.html" title="Calybrix"
-          allowtransparency="true"></iframe>
-</div>
-
-<script>
-(function(){
-  // puerta trasera de desarrollo:  tusitio.com/?preview
-  if(location.search.indexOf('preview') > -1){
-    var g = document.getElementById('cbxGate');
-    if(g) g.parentNode.removeChild(g);
-    document.documentElement.classList.remove('cbx-lock');
-    return;
-  }
-
-  var gate  = document.getElementById('cbxGate'),
-      frame = document.getElementById('cbxFrame');
-
-  document.documentElement.classList.add('cbx-lock');
-  document.body.classList.add('cbx-lock');
-
-  // el teclado nunca llega a la web de debajo; dentro del iframe funciona todo
-  document.addEventListener('keydown', function(e){ e.stopPropagation(); }, true);
-
-  // anclas internas (#problem, #solution...) neutralizadas
-  document.addEventListener('click', function(e){
-    var a = e.target.closest && e.target.closest('a[href^="#"]');
-    if(a){ e.preventDefault(); e.stopPropagation(); }
-  }, true);
-
-  // el foco no se escapa a la web de debajo
-  document.addEventListener('focusin', function(e){
-    if(!gate.contains(e.target)){ e.stopPropagation(); frame.focus(); }
-  }, true);
-
-  frame.addEventListener('load', function(){
-    try{ frame.contentWindow.focus(); }catch(err){}
-  });
 })();
 </script>
 
